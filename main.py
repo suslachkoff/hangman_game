@@ -15,6 +15,13 @@ def start_message(message):
 def play_game(message):
     word = random.choice(words)
     hidden_word = list('_' * len(word))
-    bot.reply_to(message, f'Я загадал слово из {len(word)} букв. Это слово: {hidden_word}, а ответ: {word}')
+    bot.reply_to(message, f"Я загадал слово из {len(word)} букв. Это слово: {' '.join(hidden_word)}, а ответ: {word}")
+
+@bot.message_handler(func=lambda message: message.text.isalpha())
+def guess_letter(message):
+    if message.text in word:
+        for i in range(len(word)):
+            if word[i] == message.text:
+                hidden_word[i] = message.text
 
 bot.polling(none_stop=True)
