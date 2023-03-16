@@ -14,6 +14,7 @@ def start_message(message):
 @bot.message_handler(commands=['play'])
 def play_game(message):
     word = random.choice(words)
-    bot.reply_to(message, f'Я загадал слово из {len(word)} букв. Это слово: {word}')
+    hidden_word = list('_' * len(word))
+    bot.reply_to(message, f'Я загадал слово из {len(word)} букв. Это слово: {hidden_word}, а ответ: {word}')
 
 bot.polling(none_stop=True)
