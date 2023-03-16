@@ -17,17 +17,21 @@ def play_game(message):
     hidden_word = list('_' * len(word))
     bot.reply_to(message, f"Я загадал слово из {len(word)} букв. Это слово: {' '.join(hidden_word)}, а ответ: {word}. Введите букву:")
 
-@bot.message_handler(func=lambda message: message.text.isalpha())
-def guess_letter(message):
-    global hidden_word
-    if message.text in word:
-        for i in range(len(word)):
-            if word[i] == message.text:
-                hidden_word[i] = message.text
+    @bot.message_handler(func=lambda message: message.text.isalpha())
+    def guess_letter(message):
+        nonlocal word
+        nonlocal hidden_word
+        if message.text in word:
+            for i in range(len(word)):
+                if word[i] == message.text:
+                    hidden_word[i] = message.text
 
-    bot.reply_to(message, f"Вы угадали букву {message.text}. Текущее состояние слова: {' '.join(hidden_word)}. Введите следующую букву:")
+        if message.text in hidden_word:
+            bot.reply_to(message, f"Вы уже угадали букву {message.text}. Введите другую:")
+            return
 
-    else:
-        bot.reply_to(message, f"Буква {message.text} не входит в загаданное слово. Введите следующую букву:")
+        if '_' not in hidden_word:
+            bot.reply_to(message, f"Вы выиграли! Загаданное слово было '{word}'.")
+            return bot.reply_to(message, f"Вы угадали букву {message.text}. Текущее состояние слова: {' '.join(hidden_word)}")
 
 bot.polling(none_stop=True)
