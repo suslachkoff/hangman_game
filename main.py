@@ -25,4 +25,9 @@ def guess_letter(message):
             if word[i] == message.text:
                 hidden_word[i] = message.text
 
+    bot.reply_to(message, f"Вы угадали букву {message.text}. Текущее состояние слова: {' '.join(hidden_word)}. Введите следующую букву:")
+
+    else:
+        bot.reply_to(message, f"Буква {message.text} не входит в загаданное слово. Введите следующую букву:")
+
 bot.polling(none_stop=True)
