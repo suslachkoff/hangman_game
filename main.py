@@ -25,7 +25,16 @@ def play_game(message):
     # Отправляем сообщение с загаданным словом
     bot.reply_to(message, f"Я загадал слово из {len(word)} букв: {' '.join(hidden_word)}. Введите букву:")
 
-    guesses_left = 8
+    difficulty = input("Выберите сложность игры (easy/medium/hard): ")
+    if difficulty == "easy":
+        guesses_left = 10
+    elif difficulty == "medium":
+        guesses_left = 7
+    elif difficulty == "hard":
+        guesses_left = 5
+    else:
+        bot.reply_to(message, "Некорректный выбор сложности. Игра начинается со сложности easy.")
+        guesses_left = 10
 
     # Обработчик сообщений с буквами
     @bot.message_handler(func=lambda message: message.text.isalpha())
